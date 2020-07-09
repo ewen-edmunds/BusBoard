@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using RestSharp;
 
@@ -9,23 +10,30 @@ namespace BusBoard.ConsoleApp
     {
         static RestClient client = new RestClient("https://api.tfl.gov.uk/"); 
         //client.Authenticator = new HttpBasicAuthenticator("username", "password");
-        public static List<BusInfo> GetBusesAtStopCode(string stopCode)
+        public static List<BusInfo> GetBusesAtStopCodes(List<string> stopCodes)
         {
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-      
-            var request = new RestRequest($"StopPoint/{stopCode}/Arrivals", Method.GET);
-            request.AddUrlSegment("app_id", "1ca74190");
-            request.AddUrlSegment("app_key", "ad2ece2581024fa28abe323c0d4109c7");
             
-            if (client.Get<List<BusInfo>>(request).IsSuccessful == false)
+            List<BusInfo> busInfos = new List<BusInfo>();
+
+            foreach (string stopCode in stopCodes)
             {
-                throw new Exception("An error occurred while trying to obtain the bus info data. Check the stop code is correct and try again.");
-            }
+                var request = new RestRequest($"StopPoint/{stopCode}/Arrivals", Method.GET);
+                request.AddUrlSegment("app_id", "1ca74190");
+                request.AddUrlSegment("app_key", "ad2ece2581024fa28abe323c0d4109c7");
             
-            return client.Get<List<BusInfo>>(request).Data;
+                if (client.Get<List<BusInfo>>(request).IsSuccessful == false)
+                {
+                    throw new Exception("An error occurred while trying to obtain the bus info data. Check the stop code is correct and try again.");
+                }
+                
+                busInfos.AddRange(client.Get<List<BusInfo>>(request).Data);
+            }
+
+            return busInfos;
         }
 
-        public static string GetClosestStopCode(PostcodeInfo.LongLat longLat,int maxSearchRadius)
+        public static List<BusStopInfo> GetClosestStops(PostcodeInfo.LongLat longLat,int maxSearchRadius)
         {
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
       
@@ -36,24 +44,26 @@ namespace BusBoard.ConsoleApp
       
             var response = client.Execute(request);
             
-            if (client.Get<AllBusStopInfo>(request).IsSuccessful == false)
+            if (client.Get<WrappedBusStopInfo>(request).IsSuccessful == false)
             {
                 throw new Exception("An error occurred while trying to obtain the closest stop code. Check the postcode is correct (and close enough to a stop code!) and try again.");
             }
 
-            AllBusStopInfo stopInfos = client.Get<AllBusStopInfo>(request).Data;
-
-            return stopInfos.StopPoints[0].NaptanID;
+            WrappedBusStopInfo stopInfos = client.Get<WrappedBusStopInfo>(request).Data;
+            stopInfos.StopPoints.Sort((x, y) => x.Distance.CompareTo(y.Distance));
+            
+            return stopInfos.StopPoints;
         }
     }
 
-    public class AllBusStopInfo
+    public class WrappedBusStopInfo
     {
         public List<BusStopInfo> StopPoints { get; set; }
-        
-        public class BusStopInfo
-        {
-            public string NaptanID { get; set; }
-        }
+    }
+    
+    public class BusStopInfo
+    {
+        public string NaptanID { get; set; }
+        public int Distance { get; set; }
     }
 }

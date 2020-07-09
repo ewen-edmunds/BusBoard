@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using RestSharp.Authenticators;
@@ -10,6 +11,7 @@ namespace BusBoard.ConsoleApp
   {
     const int numberBusesToDisplay = 5;
     const int maximumSearchRadius = 250;
+    private const int numberCloseStopsToConsider = 2;
     static void Main(string[] args)
     {
       BusBoardInput inputSystem = new ConsoleBusBoardInput();
@@ -24,9 +26,10 @@ namespace BusBoard.ConsoleApp
       {
         PostcodeInfo.LongLat longLat = PostcodeClient.GetLongitudeLatitudePair(userInput);
         
-        string stopCode = TfLClient.GetClosestStopCode(longLat, maximumSearchRadius);
-      
-        List<BusInfo> busList = TfLClient.GetBusesAtStopCode(stopCode);
+        List<BusStopInfo> busStopInfos = TfLClient.GetClosestStops(longLat, maximumSearchRadius);
+        List<string> nearestStopCodes = busStopInfos.ConvertAll(x => x.NaptanID).GetRange(0,2);
+        
+        List<BusInfo> busList = TfLClient.GetBusesAtStopCodes(nearestStopCodes);
 
         displaySystem.DisplayShortestTimeBuses(busList, numberBusesToDisplay);
       }
