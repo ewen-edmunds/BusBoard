@@ -20,8 +20,7 @@ namespace BusBoard.ConsoleApp
       displaySystem.DisplayWelcome();
       displaySystem.DisplayMessage("Enter a post code.");
       string userInput = inputSystem.GetStringInput();
-      //Example stop code: 490008660N
-      
+
       try
       {
         PostcodeInfo.LongLat longLat = PostcodeClient.GetLongitudeLatitudePair(userInput);

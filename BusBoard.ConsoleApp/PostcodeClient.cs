@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 using RestSharp;
 
 namespace BusBoard.ConsoleApp
@@ -10,10 +11,16 @@ namespace BusBoard.ConsoleApp
         public static PostcodeInfo.LongLat GetLongitudeLatitudePair(string postcode)
         {
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-            
+
             var request = new RestRequest($"{postcode}", Method.GET);
+            var response = client.Get<PostcodeInfo>(request);
             
-            return client.Get<PostcodeInfo>(request).Data.Result;
+            if (response.IsSuccessful == false)
+            {
+                throw new Exception("An error occurred while trying to obtain the postcode data. Check the postcode is correct and try again.");
+            }
+
+            return response.Data.Result;
         }
     }
 }

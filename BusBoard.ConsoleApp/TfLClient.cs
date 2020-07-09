@@ -20,15 +20,16 @@ namespace BusBoard.ConsoleApp
                 var request = new RestRequest($"StopPoint/{stopCode}/Arrivals", Method.GET);
                 request.AddUrlSegment("app_id", "1ca74190");
                 request.AddUrlSegment("app_key", "ad2ece2581024fa28abe323c0d4109c7");
-            
-                if (client.Get<List<BusInfo>>(request).IsSuccessful == false)
+
+                var response = client.Get<List<BusInfo>>(request);
+                
+                if (response.IsSuccessful == false)
                 {
                     throw new Exception("An error occurred while trying to obtain the bus info data. Check the stop code is correct and try again.");
                 }
                 
-                busInfos.AddRange(client.Get<List<BusInfo>>(request).Data);
+                busInfos.AddRange(response.Data);
             }
-
             return busInfos;
         }
 
@@ -45,7 +46,7 @@ namespace BusBoard.ConsoleApp
             
             if (client.Get<WrappedBusStopInfo>(request).IsSuccessful == false)
             {
-                throw new Exception("An error occurred while trying to obtain the closest stop code. Check the postcode is correct (and close enough to a stop code!) and try again.");
+                throw new Exception("An error occurred while trying to obtain the closest stop codes. Check the postcode is correct and try again.");
             }
 
             WrappedBusStopInfo stopInfos = client.Get<WrappedBusStopInfo>(request).Data;
