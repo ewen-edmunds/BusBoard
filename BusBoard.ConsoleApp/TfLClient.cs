@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Net;
 using RestSharp;
@@ -8,6 +9,9 @@ namespace BusBoard.ConsoleApp
 {
     public static class TfLClient
     {
+        private static string app_id = ConfigurationManager.AppSettings.Get("app_id"); 
+        private static string app_key = ConfigurationManager.AppSettings.Get("app_key"); 
+        
         static RestClient client = new RestClient("https://api.tfl.gov.uk/"); 
         public static List<BusInfo> GetBusesAtStopCodes(List<string> stopCodes)
         {
@@ -18,9 +22,9 @@ namespace BusBoard.ConsoleApp
             foreach (string stopCode in stopCodes)
             {
                 var request = new RestRequest($"StopPoint/{stopCode}/Arrivals", Method.GET);
-                request.AddUrlSegment("app_id", "1ca74190");
-                request.AddUrlSegment("app_key", "ad2ece2581024fa28abe323c0d4109c7");
-
+                request.AddUrlSegment("app_id", app_id);
+                request.AddUrlSegment("app_key", app_key);
+                
                 var response = client.Get<List<BusInfo>>(request);
                 
                 if (response.IsSuccessful == false)
