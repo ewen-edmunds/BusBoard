@@ -22,17 +22,20 @@ namespace BusBoard.ConsoleApp
       client.Authenticator = new HttpBasicAuthenticator("username", "password");
       
       var request = new RestRequest($"StopPoint/{userInput}/Arrivals", Method.GET);
-      //request.AddUrlSegment("app_id", "1ca74190");
-      //request.AddUrlSegment("app_key", "ad2ece2581024fa28abe323c0d4109c7");
+      request.AddUrlSegment("app_id", "1ca74190");
+      request.AddUrlSegment("app_key", "ad2ece2581024fa28abe323c0d4109c7");
       
       var response = client.Execute(request);
 
       var busList = client.Get<List<BusInfo>>(request);
       
       Console.WriteLine(response.IsSuccessful);
-
       Console.WriteLine("That's all");
-      Console.WriteLine(busList.Data);
+
+      foreach (BusInfo busInfo in busList.Data)
+      {
+        Console.WriteLine($"\nBus Station: {busInfo.StationName} \nBus Destination: {busInfo.DestinationName} \nTime to Arrive: {busInfo.TimeToStation} \nLine Name: {busInfo.LineName}");
+      }
     }
   }
 
