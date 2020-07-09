@@ -9,7 +9,6 @@ namespace BusBoard.ConsoleApp
     public static class TfLClient
     {
         static RestClient client = new RestClient("https://api.tfl.gov.uk/"); 
-        //client.Authenticator = new HttpBasicAuthenticator("username", "password");
         public static List<BusInfo> GetBusesAtStopCodes(List<string> stopCodes)
         {
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
