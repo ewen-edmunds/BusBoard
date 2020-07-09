@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Net;
 using RestSharp;
 
@@ -18,7 +19,12 @@ namespace BusBoard.ConsoleApp
       
             var response = client.Execute(request);
 
-            return client.Get<List<BusInfo>>(request).Data;
+            if (client.Get<List<BusInfo>>(request).IsSuccessful == false)
+            {
+                throw new Exception("An error occurred while trying to obtain the data.");
+            }
+            
+            return client.Get<List<BusInfo>>(request).Data;;
         }
     }
 }

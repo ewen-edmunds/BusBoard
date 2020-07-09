@@ -14,6 +14,7 @@ namespace BusBoard.ConsoleApp
 
         public override void DisplayError(string message)
         {
+            Console.WriteLine("\nWARNING: An error occurred.");
             Console.WriteLine(message);
         }
     

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using RestSharp.Authenticators;
@@ -18,9 +19,16 @@ namespace BusBoard.ConsoleApp
       //todo: validate the stop code
       //Example stop code: 490008660N
 
-      List<BusInfo> busList = TfLClient.GetBusesAtStopCode(userInput);
-      
-      displaySystem.DisplayShortestTimeBuses(busList, numberBusesToDisplay);
+      try
+      {
+        List<BusInfo> busList = TfLClient.GetBusesAtStopCode(userInput);
+
+        displaySystem.DisplayShortestTimeBuses(busList, numberBusesToDisplay);
+      }
+      catch (Exception e)
+      {
+        displaySystem.DisplayError(e.Message);
+      }
     }
   }
 }
