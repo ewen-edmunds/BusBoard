@@ -21,7 +21,7 @@ namespace BusBoard.ConsoleApp
 
             if (client.Get<List<BusInfo>>(request).IsSuccessful == false)
             {
-                throw new Exception("An error occurred while trying to obtain the data.");
+                throw new Exception("An error occurred while trying to obtain the data. Check the stop code is correct and try again.");
             }
             
             return client.Get<List<BusInfo>>(request).Data;;

@@ -16,7 +16,6 @@ namespace BusBoard.ConsoleApp
       
       displaySystem.DisplayWelcome();
       string userInput = inputSystem.GetStringInput();
-      //todo: validate the stop code
       //Example stop code: 490008660N
 
       try
