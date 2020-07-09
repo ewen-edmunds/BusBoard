@@ -10,7 +10,7 @@ namespace BusBoard.ConsoleApp
   class Program
   {
     const int numberBusesToDisplay = 5;
-    const int maximumSearchRadius = 250;
+    const int maximumSearchRadiusMetres = 250;
     private const int maxNumberBusStopsToConsider = 2;
     static void Main(string[] args)
     {
@@ -24,7 +24,7 @@ namespace BusBoard.ConsoleApp
       try
       {
         PostcodeInfo.LongLat longLat = PostcodeClient.GetLongitudeLatitudePair(userInput);
-        List<BusStopInfo> busStopInfos = TfLClient.GetClosestStops(longLat, maximumSearchRadius);
+        List<BusStopInfo> busStopInfos = TfLClient.GetClosestStops(longLat, maximumSearchRadiusMetres);
         
         if (busStopInfos.Count == 0)
         {
