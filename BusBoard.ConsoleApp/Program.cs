@@ -11,6 +11,7 @@ namespace BusBoard.ConsoleApp
 {
   class Program
   {
+    const int numberBusesToDisplay = 5;
     static void Main(string[] args)
     {
       ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
@@ -27,37 +28,15 @@ namespace BusBoard.ConsoleApp
       
       var response = client.Execute(request);
 
-      var busList = client.Get<List<BusInfo>>(request);
-      
-      Console.WriteLine(response.IsSuccessful);
-      Console.WriteLine("That's all");
+      var busList = client.Get<List<BusInfo>>(request).Data;
 
-      foreach (BusInfo busInfo in busList.Data)
+      busList.Sort((x, y) => x.TimeToStation.CompareTo(y.TimeToStation));
+      
+
+      foreach (BusInfo busInfo in busList.Take(numberBusesToDisplay))
       {
         Console.WriteLine($"\nBus Station: {busInfo.StationName} \nBus Destination: {busInfo.DestinationName} \nTime to Arrive: {busInfo.TimeToStation} \nLine Name: {busInfo.LineName}");
       }
-    }
-  }
-
-  public class BusInfo
-  {
-    public string StationName { get; set; }
-    public string DestinationName { get; set; }
-    public string LineName { get; set; }
-    public int TimeToStation { get; set; }
-  }
-
-  public abstract class BusBoardInput
-  {
-    public abstract string GetStringInput();
-  }
-
-  public class ConsoleBusBoardInput : BusBoardInput
-  {
-    public override string GetStringInput()
-    {
-      Console.Write("\nPlease enter a string:\n> ");
-      return Console.ReadLine();
     }
   }
 }
