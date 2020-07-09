@@ -55,15 +55,4 @@ namespace BusBoard.ConsoleApp
             return stopInfos.StopPoints;
         }
     }
-
-    public class WrappedBusStopInfo
-    {
-        public List<BusStopInfo> StopPoints { get; set; }
-    }
-    
-    public class BusStopInfo
-    {
-        public string NaptanID { get; set; }
-        public int Distance { get; set; }
-    }
 }

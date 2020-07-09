@@ -51,6 +51,7 @@
     <Compile Include="BusBoardDisplay.cs" />
     <Compile Include="BusBoardInput.cs" />
     <Compile Include="BusInfo.cs" />
+    <Compile Include="BusStopInfo.cs" />
     <Compile Include="ConsoleBusBoardDisplay.cs" />
     <Compile Include="ConsoleBusBoardInput.cs" />
     <Compile Include="PostcodeClient.cs" />

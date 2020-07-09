@@ -27,8 +27,7 @@ namespace BusBoard.ConsoleApp
         PostcodeInfo.LongLat longLat = PostcodeClient.GetLongitudeLatitudePair(userInput);
         
         List<BusStopInfo> busStopInfos = TfLClient.GetClosestStops(longLat, maximumSearchRadius);
-        List<string> nearestStopCodes = busStopInfos.ConvertAll(x => x.NaptanID).GetRange(0,2);
-        
+        List<string> nearestStopCodes = busStopInfos.ConvertAll(x => x.NaptanID).GetRange(0,numberCloseStopsToConsider);
         List<BusInfo> busList = TfLClient.GetBusesAtStopCodes(nearestStopCodes);
 
         displaySystem.DisplayShortestTimeBuses(busList, numberBusesToDisplay);
@@ -37,8 +36,6 @@ namespace BusBoard.ConsoleApp
       {
         displaySystem.DisplayError(e.Message);
       }
-      
-      
     }
   }
 }
