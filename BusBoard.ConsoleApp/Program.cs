@@ -11,7 +11,7 @@ namespace BusBoard.ConsoleApp
   {
     const int numberBusesToDisplay = 5;
     const int maximumSearchRadius = 250;
-    private const int numberCloseStopsToConsider = 2;
+    private const int maxNumberBusStopsToConsider = 2;
     static void Main(string[] args)
     {
       BusBoardInput inputSystem = new ConsoleBusBoardInput();
@@ -25,9 +25,16 @@ namespace BusBoard.ConsoleApp
       try
       {
         PostcodeInfo.LongLat longLat = PostcodeClient.GetLongitudeLatitudePair(userInput);
-        
         List<BusStopInfo> busStopInfos = TfLClient.GetClosestStops(longLat, maximumSearchRadius);
-        List<string> nearestStopCodes = busStopInfos.ConvertAll(x => x.NaptanID).GetRange(0,numberCloseStopsToConsider);
+        
+        if (busStopInfos.Count == 0)
+        {
+          throw new Exception("No valid bus stops were detected nearby!");
+        }
+
+        int numberBusStopsToConsider = Math.Min(busStopInfos.Count, maxNumberBusStopsToConsider);
+        
+        List<string> nearestStopCodes = busStopInfos.ConvertAll(x => x.NaptanID).GetRange(0,numberBusStopsToConsider);
         List<BusInfo> busList = TfLClient.GetBusesAtStopCodes(nearestStopCodes);
 
         displaySystem.DisplayShortestTimeBuses(busList, numberBusesToDisplay);
