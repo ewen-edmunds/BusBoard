@@ -22,8 +22,8 @@ namespace BusBoard.ConsoleApp
             foreach (string stopCode in stopCodes)
             {
                 var request = new RestRequest($"StopPoint/{stopCode}/Arrivals", Method.GET);
-                //request.AddUrlSegment("app_id", app_id);
-                //request.AddUrlSegment("app_key", app_key);
+                request.AddUrlSegment("app_id", app_id);
+                request.AddUrlSegment("app_key", app_key);
                 
                 var response = client.Get<List<BusInfo>>(request);
                 

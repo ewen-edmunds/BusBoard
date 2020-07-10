@@ -7,19 +7,18 @@ namespace BusBoard.Web.ViewModels
 {
   public class BusInfo
   {
+    public string PostCode { get; set; }
+    public List<ConsoleApp.BusInfo> nextBuses;
+    
     public BusInfo(string postCode)
     {
       this.PostCode = postCode;
       this.nextBuses = new List<ConsoleApp.BusInfo>();
-      FetchBuses();
+      FetchNextBuses();
     }
 
-    public string PostCode { get; set; }
-    public List<ConsoleApp.BusInfo> nextBuses;
-
-
     //todo: make maxSearch and noToConsider part of config file
-    public void FetchBuses()
+    public void FetchNextBuses()
     {
       PostcodeInfo.LongLat longLat = PostcodeClient.GetLongitudeLatitudePair(PostCode);
 
@@ -30,8 +29,6 @@ namespace BusBoard.Web.ViewModels
         throw new Exception("No valid bus stops were detected nearby!");
       }
 
-      Console.WriteLine($"There were {busStopInfos.Count} nearby stop codes.");
-      
       int numberBusStopsToConsider = Math.Min(busStopInfos.Count, 2);
         
       List<string> nearestStopCodes = busStopInfos.ConvertAll(x => x.NaptanID).GetRange(0,numberBusStopsToConsider);
