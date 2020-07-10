@@ -22,7 +22,7 @@ namespace BusBoard.Web.ViewModels
     {
       try
       {
-        NextBuses = BusBoardAPI.GetSoonestBusesTo(PostCode);
+        NextBuses = BusFetcher.GetSoonestBusesTo(PostCode);
         isRetrievedDataSuccessful = true;
       }
       catch (Exception e)

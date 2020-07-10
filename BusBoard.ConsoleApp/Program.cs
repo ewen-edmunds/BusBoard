@@ -25,7 +25,7 @@ namespace BusBoard.ConsoleApp
 
       try
       {
-        List<BusInfo> soonestBuses = BusBoardAPI.GetSoonestBusesTo(userInput);
+        List<BusInfo> soonestBuses = BusFetcher.GetSoonestBusesTo(userInput);
         displaySystem.DisplayBuses(soonestBuses, numberBusesToDisplay);
       }
       catch (Exception e)

@@ -4,7 +4,7 @@ using System.Configuration;
 
 namespace BusBoard.Api
 {
-    public static class BusBoardAPI
+    public static class BusFetcher
     {
         private static int maximumSearchRadiusMetres = int.Parse(ConfigurationManager.AppSettings.Get("max_search_radius")); 
         private static int maxNumberBusStopsToConsider = int.Parse(ConfigurationManager.AppSettings.Get("max_bus_stop")); 
