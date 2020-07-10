@@ -19,7 +19,6 @@ namespace BusBoard.Web.ViewModels
       FetchNextBuses();
     }
 
-    //todo: make maxSearch and noToConsider part of config file
     public void FetchNextBuses()
     {
       try
