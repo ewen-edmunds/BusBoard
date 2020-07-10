@@ -8,6 +8,8 @@ namespace BusBoard.Web.ViewModels
   public class BusInfo
   {
     public string PostCode { get; set; }
+    public bool isRetrievedDataSuccessful { get; set; }
+    public string ErrorMessage { get; set; }
     public List<ConsoleApp.BusInfo> nextBuses;
     
     public BusInfo(string postCode)
@@ -20,7 +22,16 @@ namespace BusBoard.Web.ViewModels
     //todo: make maxSearch and noToConsider part of config file
     public void FetchNextBuses()
     {
-      nextBuses = BusBoardAPI.GetSoonestBusesTo(PostCode);
+      try
+      {
+        nextBuses = BusBoardAPI.GetSoonestBusesTo(PostCode);
+        isRetrievedDataSuccessful = true;
+      }
+      catch (Exception e)
+      {
+        ErrorMessage = e.Message;
+        isRetrievedDataSuccessful = false;
+      }
     }
   }
 }

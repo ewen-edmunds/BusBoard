@@ -10,6 +10,7 @@
     @if (Model.nextBuses.Count == 0)
     {
         <p>But nobody came: No buses were detected nearby! Make sure you enter a valid London postcode.</p>
+        <p>The data retrieval failed, with reason: @Model.ErrorMessage</p>
     }
     else
     {
