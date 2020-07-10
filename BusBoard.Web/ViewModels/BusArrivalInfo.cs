@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using BusBoard.ConsoleApp;
+using BusBoard.Api;
 
 namespace BusBoard.Web.ViewModels
 {
@@ -10,12 +10,12 @@ namespace BusBoard.Web.ViewModels
     public string PostCode { get; set; }
     public bool isRetrievedDataSuccessful { get; set; }
     public string ErrorMessage { get; set; }
-    public List<ConsoleApp.BusInfo> NextBuses { get; set; }
+    public List<BusInfo> NextBuses { get; set; }
     
     public BusArrivalInfo(string postCode)
     {
-      this.PostCode = postCode;
-      this.NextBuses = new List<ConsoleApp.BusInfo>();
+      PostCode = postCode;
+      NextBuses = new List<BusInfo>();
     }
 
     public void FetchNextBuses()

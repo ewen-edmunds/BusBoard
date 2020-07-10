@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Configuration;
 
-namespace BusBoard.ConsoleApp
+namespace BusBoard.Api
 {
     public static class BusBoardAPI
     {

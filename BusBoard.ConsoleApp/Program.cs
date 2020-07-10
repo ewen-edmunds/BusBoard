@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BusBoard.Api;
+using BusBoard.ConsoleApp;
 using RestSharp.Authenticators;
 
 namespace BusBoard.ConsoleApp

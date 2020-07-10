@@ -1,4 +1,5 @@
 ﻿@using System.Configuration
+@using BusBoard.Api
 @model BusBoard.Web.ViewModels.BusArrivalInfo
 @{
   ViewBag.Title = "Bus Information";
@@ -9,23 +10,27 @@
 
 <div class="row">
     <p>You entered postcode: @Model.PostCode</p>
-    @if (Model.isRetrievedDataSuccessful == false || Model.NextBuses.Count == 0)
+    
+    @if (Model.NextBuses.Count == 0)
     {
         <p>Sorry, an error occurred! Make sure you enter a valid London postcode.</p>
-        <p>The data retrieval failed, with reason: @Model.ErrorMessage</p>
+        if (Model.isRetrievedDataSuccessful == false)
+        {
+            <p>The data retrieval failed, with reason: @Model.ErrorMessage</p>
+        }
     }
     else
     {
         <p>Here are the soonest buses arriving near you:</p>
         int numberToDisplay = int.Parse(ConfigurationManager.AppSettings.Get("max_buses_to_display"));
-        foreach (BusBoard.ConsoleApp.BusInfo busInfo in Model.NextBuses.Take(numberToDisplay))
+        foreach (BusInfo busInfo in Model.NextBuses.Take(numberToDisplay))
         {
-            <br>
             <h3>- - - - - - - - - - - - -</h3>
             <p><b>Bus Stop:</b> @busInfo.StationName</p>
             <p><b>Destination Stop:</b> @busInfo.DestinationName</p>
             <p><b>Expected Arrival:</b> @busInfo.ExpectedArrival.ToLocalTime()</p>
             <p><b>Line Number:</b> @busInfo.LineName</p>
+            <br>
         }
     }
 </div>
