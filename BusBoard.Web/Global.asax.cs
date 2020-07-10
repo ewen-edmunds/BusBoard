@@ -16,8 +16,8 @@ namespace BusBoard.Web
       FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
       RouteConfig.RegisterRoutes(RouteTable.Routes);
       BundleConfig.RegisterBundles(BundleTable.Bundles);
- 
-      Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture("en-GB");
+      
+      Thread.CurrentThread.CurrentCulture = CultureInfo.GetCultureInfo("en-GB");
     }
   }
 }
