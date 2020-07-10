@@ -22,10 +22,9 @@ namespace BusBoard.Api
         
             List<string> nearestStopCodes = busStopInfos.ConvertAll(x => x.NaptanID).GetRange(0,numberBusStopsToConsider);
             List<BusInfo> busList = TfLClient.GetBusesAtStopCodes(nearestStopCodes);
-
-            Console.WriteLine(busList[0].ExpectedArrival.ToUniversalTime().ToString());
+            
             busList.Sort((x, y) => x.ExpectedArrival.ToUniversalTime().CompareTo(y.ExpectedArrival.ToUniversalTime()));
-            busList.RemoveAll(x => DateTime.ParseExact(x.ExpectedArrival.ToUniversalTime().ToString(),  "dd/MM/yyyy HH:mm:ss", CultureInfo.InvariantCulture) <= DateTime.ParseExact(DateTime.Now.ToUniversalTime().ToString(),  "dd/MM/yyyy HH:mm:ss", CultureInfo.InvariantCulture));
+            busList.RemoveAll(x => DateTime.ParseExact(x.ExpectedArrival.ToUniversalTime().ToString(),   "dd/MM/yyyy HH:mm:ss", CultureInfo.InvariantCulture) <= DateTime.ParseExact(DateTime.Now.ToUniversalTime().ToString(),  "dd/MM/yyyy HH:mm:ss", CultureInfo.InvariantCulture));
 
             return busList;
         }
