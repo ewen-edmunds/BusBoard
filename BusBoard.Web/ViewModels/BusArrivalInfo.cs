@@ -5,25 +5,24 @@ using BusBoard.ConsoleApp;
 
 namespace BusBoard.Web.ViewModels
 {
-  public class BusInfo
+  public class BusArrivalInfo
   {
     public string PostCode { get; set; }
     public bool isRetrievedDataSuccessful { get; set; }
     public string ErrorMessage { get; set; }
-    public List<ConsoleApp.BusInfo> nextBuses;
+    public List<ConsoleApp.BusInfo> NextBuses { get; set; }
     
-    public BusInfo(string postCode)
+    public BusArrivalInfo(string postCode)
     {
       this.PostCode = postCode;
-      this.nextBuses = new List<ConsoleApp.BusInfo>();
-      FetchNextBuses();
+      this.NextBuses = new List<ConsoleApp.BusInfo>();
     }
 
     public void FetchNextBuses()
     {
       try
       {
-        nextBuses = BusBoardAPI.GetSoonestBusesTo(PostCode);
+        NextBuses = BusBoardAPI.GetSoonestBusesTo(PostCode);
         isRetrievedDataSuccessful = true;
       }
       catch (Exception e)
