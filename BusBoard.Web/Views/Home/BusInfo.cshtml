@@ -19,7 +19,7 @@
             <br>
             <p>Bus stop: @busInfo.StationName</p>
             <p>Destination stop: @busInfo.DestinationName</p>
-            <p>Expected Arrival: @busInfo.ExpectedArrival</p>
+            <p>Expected Arrival: @busInfo.ExpectedArrival.ToLocalTime()</p>
             <p>Time to station: @busInfo.TimeToStation</p>
             <p>Line Number: @busInfo.LineName</p>
         }

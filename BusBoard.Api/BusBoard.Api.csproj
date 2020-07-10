@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BusBoardAPI.cs" />
     <Compile Include="BusInfo.cs" />
     <Compile Include="BusStopInfo.cs" />
     <Compile Include="PostcodeClient.cs" />

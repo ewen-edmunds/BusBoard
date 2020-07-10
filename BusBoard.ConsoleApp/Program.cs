@@ -23,21 +23,8 @@ namespace BusBoard.ConsoleApp
 
       try
       {
-        PostcodeInfo.LongLat longLat = PostcodeClient.GetLongitudeLatitudePair(userInput);
-        List<BusStopInfo> busStopInfos = TfLClient.GetClosestStops(longLat, maximumSearchRadiusMetres);
-        if (busStopInfos.Count == 0)
-        {
-          throw new Exception("No valid bus stops were detected nearby!");
-        }
-        
-        Console.WriteLine(busStopInfos.Count);
-
-        int numberBusStopsToConsider = Math.Min(busStopInfos.Count, maxNumberBusStopsToConsider);
-        
-        List<string> nearestStopCodes = busStopInfos.ConvertAll(x => x.NaptanID).GetRange(0,numberBusStopsToConsider);
-        List<BusInfo> busList = TfLClient.GetBusesAtStopCodes(nearestStopCodes);
-
-        displaySystem.DisplayShortestTimeBuses(busList, numberBusesToDisplay);
+        List<BusInfo> soonestBuses = BusBoardAPI.GetSoonestBusesTo(userInput);
+        displaySystem.DisplayBuses(soonestBuses, numberBusesToDisplay);
       }
       catch (Exception e)
       {

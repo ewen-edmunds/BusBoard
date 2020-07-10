@@ -7,6 +7,6 @@ namespace BusBoard.ConsoleApp
         public abstract void DisplayWelcome();
         public abstract void DisplayError(string message);
         public abstract void DisplayMessage(string message);
-        public abstract void DisplayShortestTimeBuses(List<BusInfo> busList, int number);
+        public abstract void DisplayBuses(List<BusInfo> busList, int number);
     }
 }
