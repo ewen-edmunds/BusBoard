@@ -13,7 +13,7 @@
     
     @if (Model.NextBuses.Count == 0)
     {
-        <p>Sorry, an error occurred! Make sure you enter a valid London postcode.</p>
+        <p>Sorry, an error occurred. Make sure you enter a valid London postcode.</p>
         if (Model.isRetrievedDataSuccessful == false)
         {
             <p>The data retrieval failed, with reason: @Model.ErrorMessage</p>
