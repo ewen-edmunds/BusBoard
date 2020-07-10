@@ -22,13 +22,15 @@ namespace BusBoard.ConsoleApp
             foreach (string stopCode in stopCodes)
             {
                 var request = new RestRequest($"StopPoint/{stopCode}/Arrivals", Method.GET);
-                request.AddUrlSegment("app_id", app_id);
-                request.AddUrlSegment("app_key", app_key);
+                //request.AddUrlSegment("app_id", app_id);
+                //request.AddUrlSegment("app_key", app_key);
                 
                 var response = client.Get<List<BusInfo>>(request);
                 
                 if (response.IsSuccessful == false)
                 {
+                    Console.WriteLine($"Failed with stop code {stopCode}");
+                    Console.WriteLine(response.ErrorMessage);
                     throw new Exception("An error occurred while trying to obtain the bus info data. Check the stop code is correct and try again.");
                 }
                 

@@ -25,11 +25,12 @@ namespace BusBoard.ConsoleApp
       {
         PostcodeInfo.LongLat longLat = PostcodeClient.GetLongitudeLatitudePair(userInput);
         List<BusStopInfo> busStopInfos = TfLClient.GetClosestStops(longLat, maximumSearchRadiusMetres);
-        
         if (busStopInfos.Count == 0)
         {
           throw new Exception("No valid bus stops were detected nearby!");
         }
+        
+        Console.WriteLine(busStopInfos.Count);
 
         int numberBusStopsToConsider = Math.Min(busStopInfos.Count, maxNumberBusStopsToConsider);
         

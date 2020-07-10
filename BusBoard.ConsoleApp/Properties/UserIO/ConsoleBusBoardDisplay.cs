@@ -25,10 +25,12 @@ namespace BusBoard.ConsoleApp
 
         public override void DisplayShortestTimeBuses(List<BusInfo> busList, int numberBusesToDisplay)
         {
-            busList.Sort((x, y) => x.TimeToStation.CompareTo(y.TimeToStation));
+            busList.Sort((x, y) => x.ExpectedArrival.CompareTo(y.ExpectedArrival));
+            busList.RemoveAll(x => x.ExpectedArrival.ToUniversalTime() <= DateTime.Now.ToUniversalTime());
+            
             foreach (BusInfo busInfo in busList.Take(numberBusesToDisplay))
             {
-                Console.WriteLine($"\nBus Station: {busInfo.StationName} \nBus Destination: {busInfo.DestinationName} \nTime to Arrive: {busInfo.TimeToStation} \nLine Name: {busInfo.LineName}");
+                Console.WriteLine($"\nBus Station: {busInfo.StationName} \nBus Destination: {busInfo.DestinationName} \nExpected Arrival: {busInfo.ExpectedArrival} \nTime to Station: {busInfo.TimeToStation} \nLine Name: {busInfo.LineName}");
             }
         }
     }

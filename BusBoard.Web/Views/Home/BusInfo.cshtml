@@ -7,4 +7,21 @@
 
 <div class="row">
     <p>You entered postcode @Model.PostCode</p>
+    @if (Model.nextBuses.Count == 0)
+    {
+        <p>But nobody came: No buses were detected nearby! Make sure you enter a valid London postcode.</p>
+    }
+    else
+    {
+        <p>A bus has been detected lads.</p>
+        foreach (BusBoard.ConsoleApp.BusInfo busInfo in Model.nextBuses)
+        {
+            <br>
+            <p>Bus stop: @busInfo.StationName</p>
+            <p>Destination stop: @busInfo.DestinationName</p>
+            <p>Expected Arrival: @busInfo.ExpectedArrival</p>
+            <p>Time to station: @busInfo.TimeToStation</p>
+            <p>Line Number: @busInfo.LineName</p>
+        }
+    }
 </div>
