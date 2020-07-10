@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Globalization;
 
 namespace BusBoard.Api
 {
@@ -22,8 +23,9 @@ namespace BusBoard.Api
             List<string> nearestStopCodes = busStopInfos.ConvertAll(x => x.NaptanID).GetRange(0,numberBusStopsToConsider);
             List<BusInfo> busList = TfLClient.GetBusesAtStopCodes(nearestStopCodes);
 
-            busList.Sort((x, y) => x.ExpectedArrival.CompareTo(y.ExpectedArrival));
-            busList.RemoveAll(x => x.ExpectedArrival.ToUniversalTime() <= DateTime.Now.ToUniversalTime());
+            Console.WriteLine(busList[0].ExpectedArrival.ToUniversalTime().ToString());
+            busList.Sort((x, y) => x.ExpectedArrival.ToUniversalTime().CompareTo(y.ExpectedArrival.ToUniversalTime()));
+            busList.RemoveAll(x => DateTime.ParseExact(x.ExpectedArrival.ToUniversalTime().ToString(),  "dd/MM/yyyy HH:mm:ss", CultureInfo.InvariantCulture) <= DateTime.ParseExact(DateTime.Now.ToUniversalTime().ToString(),  "dd/MM/yyyy HH:mm:ss", CultureInfo.InvariantCulture));
 
             return busList;
         }
